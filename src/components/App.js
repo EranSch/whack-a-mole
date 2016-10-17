@@ -1,18 +1,42 @@
-import React, { Component } from 'react';
+import React  from 'react';
+const {Row, Col} = require('react-flexgrid');
+import { includes } from 'lodash';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import Target from './Target';
+import Scoreboard from './Scoreboard';
+
+const App = ({
+  board,
+  activeTargets,
+  toggleGameplay,
+  gameStarted,
+  onWhack,
+  score,
+  difficulty,
+  gameOver,
+  resetGame,
+}) => (
+  <div className="game">
+    <h1 className="header">
+      Whack-a-Mole! ({gameStarted ? 'GO!' : 'Paused'})
+    </h1>
+    { gameOver ?
+      (<button onClick={resetGame}>Reset</button>) :
+      (<button onClick={toggleGameplay}>Play/Pause</button>)
+    }
+    <Scoreboard {...score} difficulty={difficulty}/>
+    <div className="game-board">
+      {board.map((row, rowId) => (
+        <Row key={rowId}>
+          {row.map(i => (
+            <Col xs={4} key={i}>
+              <Target isActive={includes(activeTargets, i)} onWhack={onWhack} id={i} />
+            </Col>
+          ))}
+        </Row>
+      ))}
+    </div>
+  </div>
+);
 
 export default App;
