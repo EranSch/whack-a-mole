@@ -9,7 +9,8 @@ const Target = ({ id, isActive, onWhack }) => {
       'target',
       { 'target--active': isActive }
     )}>
-      { isActive ? 'X' : 'O'}
+      <div className="tube"></div>
+      <img src={require(`../assets/trumps/${id}.png`)} className="head" alt="Click Me!"/>
     </button>
   );
 };
