@@ -48,7 +48,7 @@ const mapStateToProps = (state) => {
 
   if (leaders) {
     const currentPlayer = {
-      name: 'You',
+      name: state.game.playerName || 'You',
       score: state.game.highScore,
       avatar: 'images/avatars/user.jpg',
     };
