@@ -1,5 +1,7 @@
 import { assign } from 'lodash';
 
+import actionTypes from './actionTypes';
+
 const defaultState = {
   currentScore: 0,
   highScore: 0,
@@ -7,7 +9,7 @@ const defaultState = {
 
 export default function(state = defaultState, action) {
   switch (action.type) {
-    case 'GAME_CURRENT_SCORE': {
+    case actionTypes.GAME.CURRENT_SCORE: {
       return assign({}, state, {
         currentScore: action.payload,
         highScore: Math.max(state.highScore, action.payload),
