@@ -2,6 +2,7 @@ import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import game from './modules/Game/reducer';
+import leaderboard from './modules/Leaderboard/reducer';
 
 // Divide the Redux store into module "slices".
 // On every dispatch, pass the action to every "slice" so it
@@ -9,6 +10,7 @@ import game from './modules/Game/reducer';
 // to recreate the Redux store.
 const reducer = combineReducers({
   game,
+  leaderboard,
 });
 
 const middleware = applyMiddleware(thunkMiddleware);
