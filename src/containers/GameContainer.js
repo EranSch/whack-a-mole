@@ -29,10 +29,6 @@ class GameContainer extends Component {
       ],
       gameStarted: false,
       activeTargets: [],
-      score: {
-        current: 0,
-        high: 0,
-      },
       difficulty: 0,
       gameOver: false,
     };
@@ -85,7 +81,7 @@ class GameContainer extends Component {
     });
   }
   onWhack(id) {
-    const { activeTargets, score, difficulty, gameStarted } = this.state;
+    const { activeTargets, difficulty, gameStarted } = this.state;
 
     if (!gameStarted) {
       return;
@@ -94,17 +90,14 @@ class GameContainer extends Component {
     if (_.includes(activeTargets, id)) {
 
       // Update Scores
-      score.current++;
-      if (score.current >= score.high) {
-        score.high = score.current;
-      }
+      const newScore = this.props.currentScore + 1;
 
       // Update difficulty
       let newDifficulty =
         _.last(
           _(SCORE_DIFFICULTY_MAP)
           .filter(mapping => {
-            return _.head(mapping) <= score.current;
+            return _.head(mapping) <= newScore;
           })
           .last()
         ) || 0;
@@ -113,24 +106,20 @@ class GameContainer extends Component {
         this.updateTimer(DIFFICULTY_MAP[newDifficulty]);
       }
 
-      this.props.onScoreChange(score.current);
+      this.props.onScoreChange(newScore);
       this.setState({
         ...this.state,
         activeTargets: _.pull(activeTargets, id),
-        score,
         difficulty: newDifficulty,
       });
     }
   }
   resetGame() {
-    const { score } = this.state;
-    score.current = 0;
-    this.props.onScoreChange(score.current);
+    this.props.onScoreChange(0);
 
     this.setState({
       ...this.state,
       activeTargets: [],
-      score,
       difficulty: 0,
       gameOver: false
     }, () => {
@@ -138,22 +127,35 @@ class GameContainer extends Component {
     });
   }
   render() {
+    const score = {
+      current: this.props.currentScore,
+      high: this.props.highScore,
+    };
+
     return (
       <Game
         toggleGameplay={this.toggleGameplay}
         resetGame={this.resetGame}
         onWhack={this.onWhack}
+        score={score}
         {...this.state}/>
     );
   }
 }
 
 GameContainer.PropTypes = {
+  currentScore: PropTypes.number.isRequired,
+  highScore: PropTypes.number.isRequired,
   onScoreChange: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  currentScore: state.game.currentScore,
+  highScore: state.game.highScore,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onScoreChange: (newScore) => dispatch(saveCurrentScore(newScore)),
 });
 
-export default connect(null, mapDispatchToProps)(GameContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GameContainer);
