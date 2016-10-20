@@ -42,9 +42,23 @@ LeaderboardContainer.propTypes = {
   )
 };
 
-const mapStateToProps = (state) => ({
-  leaders: state.leaderboard.leaders,
-  isFetching: state.leaderboard.isFetching,
-});
+const mapStateToProps = (state) => {
+  let leaders = state.leaderboard.leaders;
+
+  if (leaders) {
+    const currentPlayer = {
+      name: 'You',
+      score: state.game.highScore,
+      avatar: 'images/avatars/user.jpg',
+    };
+    leaders.push(currentPlayer);
+    leaders = leaders.sort(({ score }) => score * -1);
+  }
+
+  return {
+    leaders: leaders,
+    isFetching: state.leaderboard.isFetching,
+  };
+}
 
 export default connect(mapStateToProps)(LeaderboardContainer);
