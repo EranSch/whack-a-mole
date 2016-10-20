@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import GameContainer from './containers/GameContainer';
+import AppContainer from './containers/AppContainer';
 import './index.css';
 import '../node_modules/react-flexgrid/lib/flexgrid.css'
 
 ReactDOM.render(
-  <GameContainer />,
+  <AppContainer />,
   document.getElementById('root')
 );
