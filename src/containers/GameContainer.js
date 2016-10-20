@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Game from '../components/Game';
+import { saveCurrentScore } from '../redux/modules/Game/actionCreators';
 
 const DIFFICULTY_MAP = {
   0: 1000,
@@ -151,8 +152,8 @@ GameContainer.PropTypes = {
   onScoreChange: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = () => ({
-  onScoreChange: (newScore) => console.log(newScore),
+const mapDispatchToProps = (dispatch) => ({
+  onScoreChange: (newScore) => dispatch(saveCurrentScore(newScore)),
 });
 
 export default connect(null, mapDispatchToProps)(GameContainer);
