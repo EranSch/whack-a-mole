@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import Game from '../components/Game';
@@ -111,6 +112,7 @@ class GameContainer extends Component {
         this.updateTimer(DIFFICULTY_MAP[newDifficulty]);
       }
 
+      this.props.onScoreChange(score.current);
       this.setState({
         ...this.state,
         activeTargets: _.pull(activeTargets, id),
@@ -122,6 +124,8 @@ class GameContainer extends Component {
   resetGame() {
     const { score } = this.state;
     score.current = 0;
+    this.props.onScoreChange(score.current);
+
     this.setState({
       ...this.state,
       activeTargets: [],
@@ -143,4 +147,12 @@ class GameContainer extends Component {
   }
 }
 
-export default GameContainer;
+GameContainer.PropTypes = {
+  onScoreChange: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = () => ({
+  onScoreChange: (newScore) => console.log(newScore),
+});
+
+export default connect(null, mapDispatchToProps)(GameContainer);
