@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import App from '../components/App';
+import Game from '../components/Game';
 
 const DIFFICULTY_MAP = {
   0: 1000,
@@ -16,7 +16,7 @@ const SCORE_DIFFICULTY_MAP = [
   [30, 3],
 ];
 
-class AppContainer extends Component {
+class GameContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -134,7 +134,7 @@ class AppContainer extends Component {
   }
   render() {
     return (
-      <App
+      <Game
         toggleGameplay={this.toggleGameplay}
         resetGame={this.resetGame}
         onWhack={this.onWhack}
@@ -143,4 +143,4 @@ class AppContainer extends Component {
   }
 }
 
-export default AppContainer;
+export default GameContainer;

@@ -5,7 +5,7 @@ import { includes } from 'lodash';
 import Target from './Target';
 import Scoreboard from './Scoreboard';
 
-const App = ({
+const Game = ({
   board,
   activeTargets,
   toggleGameplay,
@@ -39,4 +39,4 @@ const App = ({
   </div>
 );
 
-export default App;
+export default Game;
