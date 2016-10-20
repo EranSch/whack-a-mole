@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getLeaders } from '../redux/modules/Leaderboard/actionCreators';
 import Leaderboard from '../components/Leaderboard';
+import Loading from '../components/Loading';
 
 class LeaderboardContainer extends Component {
   componentDidMount() {
@@ -12,9 +13,13 @@ class LeaderboardContainer extends Component {
   }
 
   render() {
-    const { leaders } = this.props;
+    const { isFetching, leaders } = this.props;
     return (
       <div className="leaderboard">
+
+        {isFetching ?
+          <Loading/>
+        : null}
 
         {leaders !== null ? (
           <Leaderboard leaders={leaders} />
@@ -27,6 +32,7 @@ class LeaderboardContainer extends Component {
 
 LeaderboardContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  isFetching: PropTypes.bool,
   leaders: PropTypes.arrayOf(
     PropTypes.shape({
       avatar: PropTypes.string,
@@ -38,6 +44,7 @@ LeaderboardContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
   leaders: state.leaderboard.leaders,
+  isFetching: state.leaderboard.isFetching,
 });
 
 export default connect(mapStateToProps)(LeaderboardContainer);
