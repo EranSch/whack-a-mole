@@ -103,3 +103,8 @@ html {
 .leaderboard__score {
   margin: 0 10px 0 5px;
 }
+
+/* Override the opacity of toasts */
+#toast-container .toast {
+  opacity: 1 !important;
+}

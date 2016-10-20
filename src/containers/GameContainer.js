@@ -1,9 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import toastr, { warning as warningToast, remove as hideToasts } from 'toastr';
 
 import Game from '../components/Game';
+import { getQuote } from '../redux/modules/Quote/actionCreators';
 import { saveCurrentScore } from '../redux/modules/Game/actionCreators';
+
+toastr.options = {
+  "positionClass": "toast-top-full-width",
+};
 
 const DIFFICULTY_MAP = {
   0: 1000,
@@ -107,6 +113,7 @@ class GameContainer extends Component {
       }
 
       this.props.onScoreChange(newScore);
+      this.props.onWhack();
       this.setState({
         ...this.state,
         activeTargets: _.pull(activeTargets, id),
@@ -147,15 +154,28 @@ GameContainer.PropTypes = {
   currentScore: PropTypes.number.isRequired,
   highScore: PropTypes.number.isRequired,
   onScoreChange: PropTypes.func.isRequired,
+  onWhack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currentScore: state.game.currentScore,
   highScore: state.game.highScore,
+  playerName: state.game.playerName,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  dispatch,
   onScoreChange: (newScore) => dispatch(saveCurrentScore(newScore)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameContainer);
+const mergeProps = (stateProps, dispatchProps) => {
+  return _.assign({}, stateProps, dispatchProps, {
+    onWhack: () => dispatchProps.dispatch(getQuote(stateProps.playerName))
+      .then(action => {
+        hideToasts();
+        warningToast(action.payload, 'Donald says');
+      })
+  });
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(GameContainer);
