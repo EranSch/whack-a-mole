@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Bernie",
+    "score": 20,
+    "avatar": "images/avatars/bernie.jpg"
+  },
+  {
+    "name": "Hillary",
+    "score": 15,
+    "avatar": "images/avatars/hillary.jpg"
+  },
+  {
+    "name": "Bill",
+    "score": 10,
+    "avatar": "images/avatars/bill.jpg"
+  }
+]
