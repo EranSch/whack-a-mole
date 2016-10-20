@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getLeaders } from '../redux/modules/Leaderboard/actionCreators';
@@ -51,8 +52,8 @@ const mapStateToProps = (state) => {
       score: state.game.highScore,
       avatar: 'images/avatars/user.jpg',
     };
-    leaders.push(currentPlayer);
-    leaders = leaders.sort(({ score }) => score * -1);
+    leaders = leaders.concat([currentPlayer]);
+    leaders = sortBy(leaders, ({ score }) => score * -1);
   }
 
   return {
