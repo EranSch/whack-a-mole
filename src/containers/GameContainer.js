@@ -112,6 +112,23 @@ class GameContainer extends Component {
         this.updateTimer(DIFFICULTY_MAP[newDifficulty]);
       }
 
+      /*
+       Updating the score is a seemingly slow process.
+
+       Whenever the player earns a point, this component calls an
+       action creator to create an action.  The action broadcasts
+       ("dispatches") the new score to all of the reducers.  The
+       Game reducer sees the action and recalculates its state.
+       Redux detects that the application state has changed and
+       recalculates every container with a mapStateToProps function.
+       If the result of mapStateToProps is different from the last
+       iteration, the container and its component tree re-renders.
+       This re-render includes the updated score, which updates the
+       UI.
+
+       But all of this work happens in an instant!  And we get the
+       benefits of a central application state.
+       */
       this.props.onScoreChange(newScore);
       this.props.onWhack();
       this.setState({
@@ -163,14 +180,34 @@ const mapStateToProps = (state) => ({
   playerName: state.game.playerName,
 });
 
+/*
+ By default, mapDispatchToProps() returns only the dispatch
+ function.  So if you don't have any custom dispatches, you
+ may call connect() with a falsey value (null, undefined, etc.).
+ */
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
   onScoreChange: (newScore) => dispatch(saveCurrentScore(newScore)),
 });
 
+/*
+ mergeProps is an optional connect() parameter that receives the
+ results of mapStateToProps() and mapDispatchToProps().  It is
+ powerful, but also makes it easy to write logic that is not "Fluxy".
+
+ The logic below achieves the intended effect, but could encourage
+ anti-patterns because the result from the Quote API is accessed directly
+ and not stored in state.  Continuing down this path could result in
+ the same data stored in multiple places, undermining Flux's goal of a
+ central application state.
+ */
 const mergeProps = (stateProps, dispatchProps) => {
   return _.assign({}, stateProps, dispatchProps, {
     onWhack: () => dispatchProps.dispatch(getQuote(stateProps.playerName))
+      /*
+       dispatch() is a Promise that, upon dispatching, resolves with the
+       action that was dispatched.
+       */
       .then(action => {
         hideToasts();
         warningToast(action.payload, 'Donald says');

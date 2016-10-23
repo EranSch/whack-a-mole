@@ -12,6 +12,10 @@ function getGenericQuote() {
 }
 
 export function getQuote(name) {
+  /*
+   Use setTimeout and new Promise to simulate a AJAX call using
+   a Promise-compliant library like fetch.
+   */
   return new Promise(resolve => {
     setTimeout(() => {
       resolve(name ? getPersonalQuote(name) : getGenericQuote());

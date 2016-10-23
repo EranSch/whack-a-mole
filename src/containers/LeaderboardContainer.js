@@ -52,6 +52,20 @@ const mapStateToProps = (state) => {
       score: state.game.highScore,
       avatar: 'images/avatars/user.jpg',
     };
+    /*
+     Take care not to mutate the leaders object.  This is similar
+     to the rule described in Game/reducer.js, though more stringent.
+
+     In addition to ensuring that oldProps !== newProps, Redux also compares
+     the properties (non-recursively) of newProps vs. oldProps using a !==
+     test.  So even though this function creates a new object on every run
+     ("return { ... }"), Redux will still calculate that the props are unchanged
+     and suppress re-rendering if the values haven't changed.
+
+     As described in Game/reducer.js, mutating an Object will still cause
+     oldObject === newObject.  Instead we use functional programming principles
+     to create a new object with each change.  lodash methods are good for this.
+     */
     leaders = leaders.concat([currentPlayer]);
     leaders = sortBy(leaders, ({ score }) => score * -1);
   }
