@@ -66,3 +66,45 @@ html {
   transform: translateX(-50%) translateY(-50px);
   opacity: 1;
 }
+
+.leaderboard {
+  border: 2px solid #333;
+  bottom: 0;
+  right: 10px;
+  position: absolute;
+  z-index: -1;
+
+  display: flex;
+  align-items: flex-start;
+  flex-flow: column nowrap;
+}
+
+.leaderboard__leader {
+  padding: 10px;
+
+  display: flex;
+  flex: 1 0 auto;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.leaderboard__leader > * {
+  flex: 1 0 auto;
+}
+
+.leaderboard__avatar-container {
+  width: 50px;
+}
+
+.leaderboard__avatar-container > IMG {
+  width: 100%;
+}
+
+.leaderboard__score {
+  margin: 0 10px 0 5px;
+}
+
+/* Override the opacity of toasts */
+#toast-container .toast {
+  opacity: 1 !important;
+}
