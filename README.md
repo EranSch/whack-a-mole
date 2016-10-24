@@ -1,3 +1,17 @@
+Whack-A-Mole! (2016 election style!)
+==
+
+Check it out: [Play!](https://swingline0.github.io/whack-a-mole/)
+--
+
+Description
+==
+
+This is a demo project used to demonstrate React and Redux basics. Slide decks will be made available and linked here soon. Enjoy!
+
+Create React App Docs
+==
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.  
