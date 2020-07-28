@@ -1,7 +1,7 @@
 Whack-A-Mole! (2016 election style!)
 ==
 
-Check it out: [Play!](https://swingline0.github.io/whack-a-mole/)
+Check it out: [Play!](https://EranSch.github.io/whack-a-mole/)
 --
 
 Description
